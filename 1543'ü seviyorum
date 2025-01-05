@@ -1,0 +1,52 @@
+def find_layers(n, m, carpet):
+    katmanlar = []
+    katman_basla = 0
+    katman_bitir_n = n
+    katman_bitir_m = m
+    
+    while katman_basla < katman_bitir_n and katman_basla < katman_bitir_m:
+        katman = []
+        
+        for i in range(katman_basla, katman_bitir_n):
+            if i == layer_start or i == katman_bitir_n - 1:
+                katman.extend(hali[i][katman_basla:katman_bitir_m])
+            else:
+                katman.append(hali[i][katman_basla])
+                katman.append(hali[i][katman_bitir_m - 1])
+        
+        katmanlar.append(katman)
+    
+        katman_start += 1
+        katman_bitir_n -= 1
+        katman_bitir_m -= 1
+    
+    return katmanlar
+
+def count_occurrences(katman, hedef):
+    count = 0
+    katman_str = ''.join(map(str, katman))
+    for i in range(len(katman_str) - len(hedef) + 1):
+        if katman_str[i:i+len(hedef)] == hedef:
+            count += 1
+    return count
+
+def solve_case(n, m, hali):
+    hedef = '1543'
+    total_count = 0
+    
+    katmanlar = katmanları_bul(n, m, hali)
+    
+    for katman in katmanlar:
+        total_count += count_occurrences(katman, hedef)
+    
+    return total_count
+
+def main():
+    t = int(input())  
+    for _ in range(t):
+        n, m = map(int, input().split())  
+        hali = [input().strip() for _ in range(n)]  
+        print(solve_case(n, m, hali))
+
+if __isim__ == "__main__":
+    main()
